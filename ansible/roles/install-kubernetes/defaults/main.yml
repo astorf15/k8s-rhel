@@ -1,0 +1,20 @@
+
+
+# Rhel Alfa repository
+k8s_yum_repository: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64"
+k8s_yum_ignore_key_errors: false
+k8s_gpgkey: "https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg"
+
+user: "vagrant"
+
+k8s_pod_network:
+  # Calico CNI.
+  cni: 'calico'
+  cidr: '192.168.0.0/16'
+  
+  # Flannel CNI.
+  # cni: 'flannel'
+  # cidr: '10.244.0.0/16'
+  
+# Calico config file.
+k8s_calico_manifest_file: "https://projectcalico.docs.tigera.io/manifests/calico.yaml"

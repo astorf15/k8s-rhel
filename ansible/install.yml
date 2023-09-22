@@ -1,0 +1,34 @@
+---
+- name: Nodes configuration 
+  hosts: all
+  become: true
+  remote_user: root
+  roles:
+    - install-tools
+    - install-docker
+    # # - set-hostname
+    - set-hosts
+    - set-time-zone
+    # - new-useradd
+  tags:
+    - node-config
+
+- name: install kubernetes
+  hosts: all
+  become: true
+  remote_user: root
+  roles:
+    - install-kubernetes
+  tags:
+    - install-kube
+    
+# - name: init control plane
+#   hosts: all
+#   become: true
+#   remote_user: root
+#   roles:
+#     - k8s-init
+#   tags:
+#     - k8s-init
+    
+...   

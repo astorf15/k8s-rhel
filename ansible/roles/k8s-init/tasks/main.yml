@@ -1,0 +1,30 @@
+---
+- name: Check if kubeadm has already run
+  stat:
+    path: "/etc/kubernetes/pki/ca.key"
+  register: kubeadm_ca
+
+- name: kubeadm init
+  shell: "kubeadm init --config /etc/kubernetes/kubeadm-config.yaml"
+  when: 
+    - not kubeadm_ca.stat.exists
+    - ansible_hostname == "aggsrvkuber1"
+  register: init_cluster
+  run_once: yes
+
+- name: Create Kubernetes config directory
+  file:
+    path: ".kube/"
+    state: directory  
+
+- name: Copy admin.conf to Home directory
+  copy:
+    src: "{{ kubeadmin_config }}"
+    dest: ".kube/config"
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+    mode: 0755
+    remote_src: true
+  when: 
+    - init_cluster is succeeded
+    - ansible_hostname == "aggsrvkuber1"  

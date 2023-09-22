@@ -1,0 +1,23 @@
+---
+# - name: upgrade all packages
+#   yum: name=* state=latest
+
+- name: Install packages dnf
+  dnf:
+    pkg:
+      - yum-utils
+      - net-tools
+      - nano
+      - mc
+      - iproute-tc
+      - vim
+      - git
+      - bash-completion
+      - nfs-utils
+      - python3
+      - tar
+      # - rsyslog
+      - chrony
+      - jq
+    state: latest
+    update_cache: true

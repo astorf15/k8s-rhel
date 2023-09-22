@@ -1,0 +1,16 @@
+---
+- name: restart containerd
+  service:
+    name: containerd
+    state: restarted
+
+- name: restart kubelet
+  service: 
+    name: kubelet 
+    state: restarted
+
+- name: started kubelet
+  service: 
+    name: kubelet 
+    state: started
+

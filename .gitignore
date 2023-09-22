@@ -1,0 +1,58 @@
+
+# Ignore Ansible files
+*.retry
+*.log
+
+# Ignore Ansible-generated files
+*.key
+*.pem
+*.pub
+
+# Ignore .terraform directory
+**/.terraform/*
+
+# Ignore .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Ignore crash log files
+crash.log
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+.terraform.lock.hcl
+
+# Ignore any .tfvars files that are automatically generated and not checked in
+*.auto.tfvars
+*.auto.tfvars.json
+*.tfvars.json
+*.tfvars
+
+# Ignore sensitive environment variables file
+key.json
+secrets.json
+.vagrant
+
+# Ignore Docker image and container data
+*.log
+*.gz
+*.out
+*.pid
+*.sock
+*.tar
+*.env
+*.env.*
+*.db
+*.sqlite3
+*.mysql
+*.pgsql
+*.redis
+*.mongo

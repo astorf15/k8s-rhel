@@ -1,0 +1,63 @@
+---
+- name: Disable firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: Put SELinux in permissive mode, logging actions that would be blocked.
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
+  register: selinux_ret
+
+# - name: Disable SELinux
+#   shell: setenforce 0
+#   when: selinux_ret.reboot_required    
+
+- name: Enable NTP server
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+
+- import_tasks: disable-swap.yml
+- import_tasks: add-modprobe-modules.yml
+
+- name: Let iptables see bridged traffic
+  copy:
+    dest: "/etc/sysctl.d/k8s.conf"
+    content: |
+      net.bridge.bridge-nf-call-iptables  = 1
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.ipv4.ip_forward                 = 1
+    mode: 0644
+- name: Set crictl.yaml
+  copy: 
+    src: crictl.yaml
+    dest: /etc/crictl.yaml
+    owner: root
+    mode: 644
+
+- name: Containerd configuration
+  shell: "{{ item }}"
+  with_items: 
+    - containerd config default | tee /etc/containerd/config.toml
+    - sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+    - sed -i 's/sandbox_image = "registry.k8s.io\/pause:3.6"/sandbox_image = "registry.k8s.io\/pause:3.9"/' /etc/containerd/config.toml
+  notify: restart containerd
+  tags: ['skip_ansible_lint']
+
+- name: Copy files on server
+  copy: 
+    src: ./files/
+    dest: /home/vagrant/
+    owner: root
+    group: root
+    mode: 0644 
+
+- import_tasks: k8s-install.yml
+
+# Set up control plane.
+#- include_tasks: control-plane-setup.yml
+#  when: kubernetes_role == 'control_plane'  
