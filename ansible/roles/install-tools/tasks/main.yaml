@@ -1,24 +1,24 @@
 ---
 - name: Install packages DNF
   ansible.builtin.dnf:
-    name: yum-utils
+    name: "{{item}}"
     state: latest
     update_cache: true
-  # with_items: 
-  #   - yum-utils
-  #   - net-tools
-  #   - nano
-  #   - mc
-  #   - iproute-tc
-  #   - vim
-  #   - git
-  #   - bash-completion
-  #   - nfs-utils
-  #   - python3
-  #   - tar
-  #   # - rsyslog
-  #   - chrony
-  #   - jq
+  with_items: 
+    - yum-utils
+    - net-tools
+    - nano
+    - mc
+    - iproute-tc
+    - vim
+    - git
+    - bash-completion
+    - nfs-utils
+    - python3
+    - tar
+    # - rsyslog
+    - chrony
+    - jq
   when: ansible_os_family == "RedHat"   
 
 - name: Installing tools APT
