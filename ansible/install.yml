@@ -5,11 +5,11 @@
   remote_user: root
   roles:
     - install-tools
-    - install-docker
-    # # - set-hostname
-    - set-hosts
-    - set-time-zone
-    # - new-useradd
+    # - install-docker
+    #- set-hostname
+    # - set-hosts
+    # - set-time-zone
+    # # - new-useradd
   tags:
     - node-config
 

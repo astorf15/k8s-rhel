@@ -1,23 +1,65 @@
 ---
-# - name: upgrade all packages
-#   yum: name=* state=latest
-
-- name: Install packages dnf
-  dnf:
-    pkg:
-      - yum-utils
-      - net-tools
-      - nano
-      - mc
-      - iproute-tc
-      - vim
-      - git
-      - bash-completion
-      - nfs-utils
-      - python3
-      - tar
-      # - rsyslog
-      - chrony
-      - jq
+- name: Install packages DNF
+  ansible.builtin.dnf:
+    name: yum-utils
     state: latest
     update_cache: true
+  # with_items: 
+  #   - yum-utils
+  #   - net-tools
+  #   - nano
+  #   - mc
+  #   - iproute-tc
+  #   - vim
+  #   - git
+  #   - bash-completion
+  #   - nfs-utils
+  #   - python3
+  #   - tar
+  #   # - rsyslog
+  #   - chrony
+  #   - jq
+  when: ansible_os_family == "RedHat"   
+
+- name: Installing tools APT
+  ansible.builtin.apt: 
+    name: "{{item}}"
+    state: latest
+    update_cache: true 
+  with_items:     
+    - chrony
+    - net-tools
+    - nano
+    - vim
+    - python3
+    - tcpdump
+    - wget
+    - openssl
+    - curl
+    - mc
+    - git
+    - apt-transport-https
+    - jq
+    # - iptables-persistent 
+  when: ansible_os_family == "Debian"   
+
+- name: Installing tools APK
+  community.general.apk: 
+    name: "{{item}}"
+    state: latest
+    update_cache: true 
+  with_items: 
+    - chrony
+    - net-tools
+    - nano
+    - vim
+    - python3
+    - tcpdump
+    - wget
+    - openssl
+    - curl
+    - mc
+    - git
+    - jq
+    # - iptables-persistent 
+  when: ansible_os_family == "Alpine"     
