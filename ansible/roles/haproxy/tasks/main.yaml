@@ -31,7 +31,7 @@
 
 - name: Enable HAProxy
   service:
-    name: "{{ item }}"
+    name: haproxy
     state: started
     enabled: yes
   with_items:
