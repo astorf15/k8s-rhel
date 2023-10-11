@@ -25,8 +25,8 @@ frontend main
 backend app
     balance     roundrobin
 
-{% for server in groups['control_plane'] %}
-  server {{ hostvars[server]['ansible_facts'].default_ipv4.address }}:6443 check
+{% for server in groups['all'] %}
+  server {{ hostvars[server]['ansible_facts'].hostname }} {{ hostvars[server]['ansible_facts'].default_ipv4.address }}:6443 check
 {% endfor %}
 
 
