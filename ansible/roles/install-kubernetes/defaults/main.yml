@@ -5,7 +5,7 @@ k8s_yum_repository: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-
 k8s_yum_ignore_key_errors: false
 k8s_gpgkey: "https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg"
 
-user: "vagrant"
+user: "astorf"
 
 k8s_pod_network:
   # Calico CNI.
