@@ -1,1 +1,7 @@
 ha_proxy_ip: "10.4.1.20"
+master_ip_1: "10.4.1.21"
+master_ip_2: "10.4.1.22"
+master_ip_3: "10.4.1.23"
+master_hostname_1: k8s-m1
+master_hostname_2: k8s-m2
+master_hostname_3: k8s-m3
