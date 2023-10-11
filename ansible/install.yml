@@ -22,6 +22,16 @@
   tags:
     - install-kube
     
+- name: install haproxy
+  hosts: proxy
+  become: true
+  remote_user: root
+  roles:
+    - haproxy
+  tags:
+    - install-haproxy
+
+
 # - name: init control plane
 #   hosts: all
 #   become: true

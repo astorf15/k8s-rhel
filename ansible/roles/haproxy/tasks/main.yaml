@@ -1,0 +1,44 @@
+---
+- name: Install HAProxy RedHat
+  ansible.builtin.dnf:
+    name:
+      - haproxy
+    state: present
+    update_cache: true
+  when: ansible_os_family == "RedHat"
+
+- name: Installing HAProxy APT
+  ansible.builtin.apt: 
+    name: 
+      - haproxy
+    state: present
+    update_cache: true 
+  when: ansible_os_family == "Debian"   
+
+- name: Installing HAProxy APK
+  community.general.apk:  
+    name: 
+      - haproxy
+    state: present
+    update_cache: true 
+  when: ansible_os_family == "Alpine"   
+
+- name: Copy haproxy haproxy.cfg
+  template:
+    src: reverse-proxy-k8s.j2
+    dest: /etc/haproxy/haproxy.cfg
+  register: haproxy_conf
+
+- name: Enable HAProxy
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - haproxy
+
+- name: Restart HAProxy
+  service:
+    name: haproxy
+    state: restarted
+  when: haproxy_conf.changed
