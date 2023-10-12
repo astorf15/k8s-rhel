@@ -23,11 +23,11 @@
     - install-kube
     
 - name: install haproxy
-  hosts: proxy
+  hosts: control_plane
   become: true
   remote_user: root
   roles:
-    - haproxy
+    - install-ha-keepalived
   tags:
     - install-haproxy
 
