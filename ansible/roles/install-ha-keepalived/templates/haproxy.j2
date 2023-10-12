@@ -16,7 +16,7 @@ defaults
     timeout check 5s
 
 frontend main
-    bind {{ ha_proxy_ip }}:9443
+    bind {{ ha_cluster_virtual_ip }}:{{ ha_cluster_virtual_port }}
     default_backend             app
 
 #---------------------------------------------------------------------
@@ -25,14 +25,13 @@ frontend main
 backend app
     balance     roundrobin
 
-    server {{ master_hostname_1 }} {{ master_ip_1 }}:6443 check
-    server {{ master_hostname_2 }} {{ master_ip_2 }}:6443 check
-    server {{ master_hostname_3 }} {{ master_ip_3 }}:6443 check
-
+{% for server in groups['control_plane'] %}
+    server {{ hostvars[server]['ansible_facts'].hostname }} {{ hostvars[server]['ansible_facts'].default_ipv4.address }}:6443 check
+{% endfor %}
 
 
 listen stats # Define a listen section called "stats"
-    bind *:9000 # Listen on localhost:9000
+    bind *:31001 # Listen on localhost:9000
     mode http
     stats enable  # Enable stats page
     stats hide-version  # Hide HAProxy version
