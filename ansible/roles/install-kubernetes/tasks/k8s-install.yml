@@ -16,9 +16,9 @@
   yum:
     name:
       - containerd.io
-      - kubeadm
-      - kubectl
-      - kubelet
+      - kubeadm-1.27.5
+      - kubectl-1.27.5
+      - kubelet-1.27.5
     state: present
   notify: started kubelet
 
