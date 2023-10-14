@@ -14,7 +14,7 @@
     when: 
       - ha_cluster_virtual_ip is defined
       - ha_cluster_virtual_ip != ""
-      - inventory_hostname in groups['k8s_masters']
+      - inventory_hostname in groups['control_plane']
     service:
       name: "{{ item }}"
       state: stopped
