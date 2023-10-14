@@ -12,8 +12,6 @@
 
   - name: Disable keepalived and haproxy services
     when: 
-      - ha_cluster_virtual_ip is defined
-      - ha_cluster_virtual_ip != ""
       - inventory_hostname in groups['control_plane']
     service:
       name: "{{ item }}"
@@ -26,8 +24,6 @@
   
   - name: Uninstall HA packages RedHat
     when: 
-      - ha_cluster_virtual_ip is defined 
-      - ha_cluster_virtual_ip != ""
       - inventory_hostname in groups['control_plane']
       - ansible_os_family == "RedHat"
     dnf:
