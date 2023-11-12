@@ -35,7 +35,7 @@ apiServer:
     bind-address: 0.0.0.0
     service-cluster-ip-range: "10.233.0.0/18"
     service-node-port-range: 30000-32767
-kubernetesVersion: "1.27.3"
+kubernetesVersion: "1.27.5"
 controlPlaneEndpoint: 10.4.1.50:7443
 networking:
   dnsDomain: cluster.local
@@ -51,13 +51,13 @@ ipvs:
   strictARP: True
 mode: ipvs
 ---
-apiVersion: kubelet.config.k8s.io/v1beta1
-kind: KubeletConfiguration
-systemReserved:
-  memory: 2048Mi
-  cpu: 1000m
-  ephemeral-storage: 2Gi
-# Default: "10Mi"
-containerLogMaxSize: 1Mi
-# Default: 5
-containerLogMaxFiles: 3
+# apiVersion: kubelet.config.k8s.io/v1beta1
+# kind: KubeletConfiguration
+# systemReserved:
+#   memory: 2048Mi
+#   cpu: 1000m
+#   ephemeral-storage: 2Gi
+# # Default: "10Mi"
+# containerLogMaxSize: 1Mi
+# # Default: 5
+# containerLogMaxFiles: 3

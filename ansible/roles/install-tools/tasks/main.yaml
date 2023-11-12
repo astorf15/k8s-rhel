@@ -20,8 +20,8 @@
     - git
     - bash-completion
     - nfs-utils
-    - python3
-    - tar
+    - python3.11
+    - iscsi-initiator-utils
     # - rsyslog
     - chrony
     - jq
