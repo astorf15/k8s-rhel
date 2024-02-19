@@ -22,6 +22,9 @@
       - haproxy
     ignore_errors: yes
   
+  - name: ipvsadm reset
+    shell: ipvsadm -C
+  
   - name: Uninstall HA packages RedHat
     when: 
       - inventory_hostname in groups['control_plane']

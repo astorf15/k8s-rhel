@@ -1,11 +1,11 @@
 
 
 # Rhel Alfa repository
-k8s_yum_repository: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64"
+k8s_yum_repository: "https://pkgs.k8s.io/core:/stable:/v1.28/rpm/"
 k8s_yum_ignore_key_errors: false
-k8s_gpgkey: "https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg"
+k8s_gpgkey: "https://pkgs.k8s.io/core:/stable:/v1.28/rpm/repodata/repomd.xml.key"
 
-user: "astorf"
+user: ""
 
 k8s_pod_network:
   # Calico CNI.

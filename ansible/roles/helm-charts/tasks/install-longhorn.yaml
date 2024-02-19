@@ -1,0 +1,28 @@
+--- 
+- name: Modify init-name
+  shell: echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
+- name: Enable iscsid
+  service:
+    name: iscsid
+    state: started
+    enabled: true
+- name: Add iscsi_tcp module
+  modprobe:
+    name: iscsi_tcp
+    state: present    
+
+- name: Add stable chart repo
+  shell: helm repo add longhorn https://charts.longhorn.io 
+
+# - name: Copy Values to host
+#   copy:
+#     src: values-nginx.yaml
+#     dest: /tmp/
+
+- name: Longhorn Install
+  shell: helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --version 1.6.0
+  register: stdout
+
+- name: Show stdout и stderr
+  debug:
+    var: stdout.stdout_lines    

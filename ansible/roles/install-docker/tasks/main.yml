@@ -29,14 +29,14 @@
     state: started
     enabled: yes
 
-# - name: Check docker-compose file already exists.
-#   stat: path=/usr/bin/docker-compose
-#   register: docker_compose_file
+- name: Check docker-compose file already exists.
+  stat: path=/usr/bin/docker-compose
+  register: docker_compose_file
 
-# - name: Install Docker-compose
-#   shell: curl -L "https://github.com/docker/compose/releases/download/v2.17.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-#   become: true
-#   when: not docker_compose_file.stat.exists    
+- name: Install Docker-compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose && ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  become: true
+  when: not docker_compose_file.stat.exists    
 
 # - name: Add the current user to docker group
 #   user: name=ubuntu append=yes groups=docker  

@@ -5,15 +5,15 @@
     state: stopped
     enabled: no
 
-- name: Put SELinux in permissive mode, logging actions that would be blocked.
-  ansible.posix.selinux:
-    policy: targeted
-    state: permissive
-  register: selinux_ret
+# - name: Put SELinux in permissive mode, logging actions that would be blocked.
+#   ansible.posix.selinux:
+#     policy: targeted
+#     state: permissive
+#   register: selinux_ret
 
 - name: Disable SELinux
   shell: setenforce 0
-  when: selinux_ret.reboot_required    
+  # when: selinux_ret.reboot_required    
 
 - name: Enable NTP server
   service:
@@ -37,7 +37,7 @@
     src: crictl.yaml
     dest: /etc/crictl.yaml
     owner: root
-    mode: 644
+    mode: 0644
 
 - name: Containerd configuration
   shell: "{{ item }}"
@@ -45,9 +45,11 @@
     - containerd config default | tee /etc/containerd/config.toml
     - sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
     - sed -i 's/sandbox_image = "registry.k8s.io\/pause:3.6"/sandbox_image = "registry.k8s.io\/pause:3.9"/' /etc/containerd/config.toml
-  notify: restart containerd
   tags: ['skip_ansible_lint']
-
+- name: restart containerd
+  service:
+    name: containerd
+    state: restarted
 - name: Copy bashrc on server
   copy: 
     src: .bashrc
@@ -57,6 +59,12 @@
     mode: 0644 
 
 - import_tasks: k8s-install.yml
+
+- import_tasks: control-plane-init.yaml
+
+- import_tasks: install-calico.yaml
+  when: inventory_hostname == 'k8s-m1'
+
 
 # Set up control plane.
 #- include_tasks: control-plane-setup.yml

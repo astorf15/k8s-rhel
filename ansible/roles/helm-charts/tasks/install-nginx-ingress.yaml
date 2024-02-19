@@ -1,0 +1,16 @@
+---
+- name: Add stable chart repo
+  shell: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+- name: Copy Values to host
+  copy:
+    src: values-nginx.yaml
+    dest: /tmp/
+
+- name: Nginx ingress Install
+  shell: helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace -f /tmp/values-nginx.yaml
+  register: stdout
+
+- name: Show stdout и stderr
+  debug:
+    var: stdout.stdout_lines    

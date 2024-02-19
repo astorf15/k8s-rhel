@@ -8,7 +8,7 @@ bootstrapTokens:
   - signing
   - authentication
 localAPIEndpoint:
-  advertiseAddress: 10.4.1.21
+  advertiseAddress: 10.5.1.21
   bindPort: 6443
 nodeRegistration:
   criSocket: "unix:///var/run/containerd/containerd.sock"
@@ -35,8 +35,8 @@ apiServer:
     bind-address: 0.0.0.0
     service-cluster-ip-range: "10.233.0.0/18"
     service-node-port-range: 30000-32767
-kubernetesVersion: "1.27.5"
-controlPlaneEndpoint: 10.4.1.50:7443
+kubernetesVersion: "1.28.7"
+controlPlaneEndpoint: k8s-m1:6443
 networking:
   dnsDomain: cluster.local
   podSubnet: "10.233.64.0/18"
@@ -50,7 +50,7 @@ clusterCIDR: "10.233.64.0/18"
 ipvs:
   strictARP: True
 mode: ipvs
----
+
 # apiVersion: kubelet.config.k8s.io/v1beta1
 # kind: KubeletConfiguration
 # systemReserved:

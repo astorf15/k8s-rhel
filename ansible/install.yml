@@ -4,12 +4,13 @@
   become: true
   remote_user: root
   roles:
-    - set-hostname
+    # - set-hostname
     - set-time-zone
-    - set-hosts
+    - set-hosts-etc
     - install-tools
     - install-docker
     # - new-useradd
+    - install-helm
   tags:
     - node-config
 
@@ -21,15 +22,36 @@
     - install-kubernetes
   tags:
     - install-kube
-    
-- name: install haproxy
-  hosts: control_plane
+
+- name: Worker init
+  hosts: k8s_cluster
   become: true
   remote_user: root
   roles:
-    - install-ha-keepalived
+    - worker-init
   tags:
-    - install-haproxy
+    - worker-init
+
+- name: install Helm charts
+  hosts: k8s-m1
+  become: true
+  remote_user: root
+  roles:
+    - helm-charts
+  tags:
+    - install-helm-charts    
+
+
+
+
+# - name: install haproxy
+#   hosts: control_plane
+#   become: true
+#   remote_user: root
+#   roles:
+#     - install-ha-keepalived
+#   tags:
+#     - install-haproxy
 
 
 # - name: init control plane

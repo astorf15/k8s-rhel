@@ -4,21 +4,17 @@
   yum_repository:
     name: kubernetes
     description: 'Base programs for k8s'
-    baseurl: 'https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64'
+    baseurl: "{{ k8s_yum_repository }}"
     gpgcheck: yes
-    gpgkey: 
-      - 'https://packages.cloud.google.com/yum/doc/yum-key.gpg'
-      - 'https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg'
-
-
+    gpgkey: "{{ k8s_gpgkey }}"
 
 - name: Install Kubernetes packages
   yum:
     name:
       - containerd.io
-      - kubeadm-1.27.5
-      - kubectl-1.27.5
-      - kubelet-1.27.5
+      - kubeadm
+      - kubectl
+      - kubelet
     state: present
   notify: started kubelet
 
@@ -34,12 +30,5 @@
     owner: root
     mode: 0644
   
-- name: Copy .bashrc
-  copy: 
-    src: .bashrc
-    dest: /home/{{user}}/
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: 0664
 
 ...

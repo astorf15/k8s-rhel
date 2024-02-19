@@ -1,0 +1,28 @@
+---
+- name: Check admin.comf file already exists.
+  stat: 
+    path: /etc/kubernetes/admin.conf
+  register: admin_conf
+  
+- name: Init master control node
+  shell: kubeadm init --config /etc/kubernetes/kubeadm-config.yaml
+  register: kubeadm_init
+  when: inventory_hostname == 'k8s-m1' and not admin_conf.stat.exists
+
+- name: Вывести stdout и stderr
+  debug:
+    var: kubeadm_init.stdout_lines  
+ 
+- name: Add directory for config file
+  file:
+    path: /root/.kube
+    state: directory
+
+- name: Copy config file
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    mode: 0600  
+    remote_src: true
+    force: true
+  when: inventory_hostname == 'k8s-m1'

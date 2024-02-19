@@ -1,0 +1,4 @@
+---
+- import_tasks: install-nginx-ingress.yaml
+- import_tasks: install-longhorn.yaml
+
